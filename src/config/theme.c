@@ -358,6 +358,20 @@ theme_init_colours(void)
     _theme_init_pair(78, COLOR_YELLOW, COLOR_MAGENTA,   "yellow_magenta");
     _theme_init_pair(79, COLOR_YELLOW, COLOR_WHITE,     "yellow_white");
     _theme_init_pair(80, COLOR_YELLOW, COLOR_YELLOW,    "yellow_yellow");
+
+    if (COLORS <= 256) {
+        int i, j, pair_id = 81;
+        char pair_name[16];
+
+        log_info("%d colors: Initializing pairs", COLORS);
+
+        for(i=-1; i < 256; i++) {
+            for(j=-1; j < 256; j++) {
+                snprintf(pair_name, 16, "%d_%d", i, j);
+                _theme_init_pair(pair_id++, i, j, pair_name);
+            }
+        }
+    }
 }
 
 static void
