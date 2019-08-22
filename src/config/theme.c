@@ -359,7 +359,9 @@ theme_init_colours(void)
     _theme_init_pair(79, COLOR_YELLOW, COLOR_WHITE,     "yellow_white");
     _theme_init_pair(80, COLOR_YELLOW, COLOR_YELLOW,    "yellow_yellow");
 
-    if (COLORS <= 256) {
+    // TODO: this is only for testing. actually we need to only init the default color pairs
+    // and then init the 256 color as pairs only when needed. otherwise we overflow.
+    if (COLORS >= 256) {
         int i, j, pair_id = 81;
         char pair_name[16];
 
@@ -920,6 +922,8 @@ theme_attrs(theme_item_t attrs)
     }
 
     // lookup colour pair
+    // TODO: add new one if not present in 8 color range
+    // best if we can use xterm256 colors name and map them to the color nr
     result = GPOINTER_TO_INT(g_hash_table_lookup(str_to_pair, lookup_str->str));
     g_string_free(lookup_str, TRUE);
     if (bold) {
